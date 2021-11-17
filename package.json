@@ -1,0 +1,24 @@
+{
+  "name": "ponggame",
+  "version": "1.0.0",
+  "description": "A pong game written in Typescript using P5js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "serve": "webpack serve --mode development "
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^5.64.1",
+    "webpack-cli": "^4.9.1"
+  },
+  "dependencies": {
+    "@types/p5": "^1.3.1",
+    "p5": "^1.4.0",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.4.4",
+    "webpack-dev-server": "^4.5.0"
+  }
+}

@@ -1,0 +1,42 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        html, body {
+            background-color: #2f3640;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        h1 {
+            margin: 0;
+            padding: 10px 0 10px 0;
+            text-align: center;
+            color: #DAF3FF;
+        }
+        .center {
+            display: flex;
+            justify-content: center;
+        }
+        #gameWindow {
+            border: solid 1px #000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pong Game</h1>
+
+    <div class="center">
+        <div id="gameWindow"></div>
+    </div>
+
+    <script src="bundle.js"></script>
+</body>
+</html>
