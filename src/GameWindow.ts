@@ -1,7 +1,7 @@
 import Canvas from './canvas';
 import Ball from './Entities/Ball';
 import Paddle from './Entities/Paddle';
-import ScreenText from './Entities/ScreenText';
+import Collision from './Collision';
 
 export default class GameWindow extends Canvas {
 
@@ -13,11 +13,14 @@ export default class GameWindow extends Canvas {
     private AIPaddle: Paddle;
     private ball: Ball;
 
+    private collision: Collision;
+
     constructor() {
         super();
         this.playerPaddle = new Paddle();
         this.AIPaddle = new Paddle(true);
         this.ball = new Ball();
+        this.collision = new Collision(this);
     }
 
     setup() {
@@ -31,6 +34,13 @@ export default class GameWindow extends Canvas {
         this.AIPaddle.display(this);
         this.playerPaddle.display(this, this.mouseY);
         this.ball.display(this);
+
+
+        if(this.collision.circRect(this.ball, this.playerPaddle))
+        {
+            this.ball.velocityX *= -1;
+            this.ball.velocityY *= -1;
+        }
     }
 
 }
