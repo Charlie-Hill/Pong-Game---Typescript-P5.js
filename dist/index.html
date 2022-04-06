@@ -3,7 +3,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Pong Game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri&display=swap" rel="stylesheet">
 
     <style>
         html, body {
@@ -14,12 +17,19 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            font-family: 'Hind Siliguri', sans-serif;
         }
         h1 {
             margin: 0;
             padding: 10px 0 10px 0;
             text-align: center;
             color: #DAF3FF;
+        }
+        a {
+            color: #2e9eb0;
+        }
+        a:hover {
+            color: #34d2eb
         }
         .center {
             display: flex;
@@ -36,6 +46,10 @@
     <div class="center">
         <div id="gameWindow"></div>
     </div>
+
+    <button onclick="resetGame()">Reset</button>
+
+    <p style="color: #f1f1f1;">Pong Game made by <a href="https://charlie.onl" target="_blank">charlie.onl</a></p>
 
     <script src="bundle.js"></script>
 </body>

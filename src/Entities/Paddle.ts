@@ -17,6 +17,9 @@ export default class Paddle implements IEntity {
     }
 
     display(p5: any, customY?: number): void {
+        if (customY) {
+            this.y = customY;
+        }
         p5.fill(255)
         p5.rect(this.x, customY ? customY-35 : this.y, this.width, this.height);
     }

@@ -1,5 +1,4 @@
 import p5 from "p5";
-import GameWindow from "../GameWindow";
 import { ICircle } from "../Interface/interfaces";
 
 export default class Ball implements ICircle {
