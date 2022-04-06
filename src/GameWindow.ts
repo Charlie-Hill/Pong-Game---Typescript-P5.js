@@ -1,6 +1,7 @@
 import Canvas from './canvas';
 import Ball from './Entities/Ball';
 import Paddle from './Entities/Paddle';
+import PauseScreen from './Entities/UI/PauseScreen';
 import Collision from './Collision';
 
 export default class GameWindow extends Canvas {
@@ -8,6 +9,9 @@ export default class GameWindow extends Canvas {
     static WINDOW_LENGTH = 800;
     static WINDOW_HEIGHT = 600;
     static WINDOW_COLOR = 100;
+    static WINDOW_PAUSED_COLOR = 40;
+
+    private isGameStarted: boolean = false;
 
     private playerPaddle: Paddle;
     private AIPaddle: Paddle;
@@ -28,18 +32,28 @@ export default class GameWindow extends Canvas {
         this.frameRate(60);
     }
 
+    mouseClicked () {
+        if (!this.isGameStarted) {
+            this.isGameStarted = true;
+        }
+    }
+
     draw() {
         this.background(GameWindow.WINDOW_COLOR);
 
-        this.AIPaddle.display(this);
-        this.playerPaddle.display(this, this.mouseY);
-        this.ball.display(this);
+        if (!this.isGameStarted) {
+            let pauseScreen = new PauseScreen(GameWindow.WINDOW_LENGTH, GameWindow.WINDOW_HEIGHT, GameWindow.WINDOW_PAUSED_COLOR);
+            pauseScreen.display(this);
+        } else {
+            this.AIPaddle.display(this);
+            this.playerPaddle.display(this, this.mouseY);
+            this.ball.display(this);
 
-
-        if(this.collision.circRect(this.ball, this.playerPaddle))
-        {
-            this.ball.velocityX *= -1;
-            this.ball.velocityY *= -1;
+            if(this.collision.circRect(this.ball, this.playerPaddle))
+            {
+                this.ball.velocityX *= -1;
+                this.ball.velocityY *= -1;
+            }
         }
     }
 

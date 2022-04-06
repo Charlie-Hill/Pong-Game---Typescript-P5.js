@@ -4,6 +4,6 @@ export default interface IEntity {
     x: number;
     y: number;
     width?: number;
-    length?: number;
+    height?: number;
     display(p5: p5, x: number, y: number): void;
 }

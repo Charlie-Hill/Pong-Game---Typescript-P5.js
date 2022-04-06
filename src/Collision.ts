@@ -17,7 +17,7 @@ export default class Collision {
         else if (circleEntity.x > rectangleEntity.x + rectangleEntity.width!) testX = rectangleEntity.x + rectangleEntity.width!;   // right edge
         
         if (circleEntity.y < rectangleEntity.y) testY = rectangleEntity.y;  // top edge
-        else if (circleEntity.y > rectangleEntity.y + rectangleEntity.length!) testY = rectangleEntity.y + rectangleEntity.length!;   // bottom edge
+        else if (circleEntity.y > rectangleEntity.y + rectangleEntity.height!) testY = rectangleEntity.y + rectangleEntity.height!;   // bottom edge
 
         let d = this.p5.dist(circleEntity.x, circleEntity.y, testX, testY);
 

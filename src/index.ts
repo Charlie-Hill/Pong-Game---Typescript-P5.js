@@ -1,3 +1,8 @@
 import GameWindow from './GameWindow';
 
-new GameWindow();
+let game = new GameWindow();
+
+document.getElementById('resetBtn')?.addEventListener('click', () => {
+    document.getElementById('gameWindow')!.innerHTML = '';
+    game = new GameWindow();
+});

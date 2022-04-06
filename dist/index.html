@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pong Game</title>
+    <title>Pong Game by charlie.onl</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri&display=swap" rel="stylesheet">
@@ -18,6 +18,20 @@
             align-items: center;
             flex-direction: column;
             font-family: 'Hind Siliguri', sans-serif;
+        }
+        button {
+            background-color: #646464;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #212121;
         }
         h1 {
             margin: 0;
@@ -47,7 +61,7 @@
         <div id="gameWindow"></div>
     </div>
 
-    <button onclick="resetGame()">Reset</button>
+    <button id="resetBtn">Reset</button>
 
     <p style="color: #f1f1f1;">Pong Game made by <a href="https://charlie.onl" target="_blank">charlie.onl</a></p>
 
