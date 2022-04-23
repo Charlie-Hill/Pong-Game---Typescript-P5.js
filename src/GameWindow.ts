@@ -16,6 +16,7 @@ export default class GameWindow extends Canvas {
     private playerPaddle: Paddle;
     private AIPaddle: Paddle;
     private ball: Ball;
+    private pauseScreen: PauseScreen;
 
     private collision: Collision;
 
@@ -25,6 +26,7 @@ export default class GameWindow extends Canvas {
         this.AIPaddle = new Paddle(true);
         this.ball = new Ball();
         this.collision = new Collision(this);
+        this.pauseScreen = new PauseScreen(GameWindow.WINDOW_LENGTH, GameWindow.WINDOW_HEIGHT, GameWindow.WINDOW_PAUSED_COLOR)
     }
 
     setup() {
@@ -33,7 +35,7 @@ export default class GameWindow extends Canvas {
     }
 
     mouseClicked () {
-        if (!this.isGameStarted) {
+        if(this.pauseScreen.clicked(this, this.mouseX, this.mouseY)) {
             this.isGameStarted = true;
         }
     }
@@ -42,8 +44,7 @@ export default class GameWindow extends Canvas {
         this.background(GameWindow.WINDOW_COLOR);
 
         if (!this.isGameStarted) {
-            let pauseScreen = new PauseScreen(GameWindow.WINDOW_LENGTH, GameWindow.WINDOW_HEIGHT, GameWindow.WINDOW_PAUSED_COLOR);
-            pauseScreen.display(this);
+            this.pauseScreen.display(this);
         } else {
             this.AIPaddle.display(this);
             this.playerPaddle.display(this, this.mouseY);

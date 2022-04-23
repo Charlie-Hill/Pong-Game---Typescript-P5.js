@@ -16,6 +16,11 @@ export default class PauseScreen implements IEntity {
         this.pauseColor = pauseColor;
     }
 
+    clicked (p5: any,mouseX: number, mouseY: number) {
+        if (((mouseX > this.x) && (mouseX < this.x + this.width) && mouseY > this.y) && (mouseY < this.y + this.height))
+            return true;
+    }
+
     display(p5: any) {
         // Background overlay
         p5.background(this.pauseColor);
@@ -25,12 +30,11 @@ export default class PauseScreen implements IEntity {
         p5.strokeWeight(4);
         p5.stroke(50);
         p5.fill(255, 0, 0);
-
+        
         p5.textSize(64);
         p5.text('The game is paused', 400, 250);
         p5.textSize(32);
-        p5.text('Click anywhere on the game screen to continue', 400, 300);
-
+        p5.text('Click anywhere on the game window to continue', 400, 300);
     }
     
 }
