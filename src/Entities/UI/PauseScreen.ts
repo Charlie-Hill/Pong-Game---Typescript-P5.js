@@ -16,7 +16,7 @@ export default class PauseScreen implements IEntity {
         this.pauseColor = pauseColor;
     }
 
-    clicked (p5: any,mouseX: number, mouseY: number) {
+    clicked (mouseX: number, mouseY: number) {
         if (((mouseX > this.x) && (mouseX < this.x + this.width) && mouseY > this.y) && (mouseY < this.y + this.height))
             return true;
     }

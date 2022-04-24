@@ -35,7 +35,7 @@ export default class GameWindow extends Canvas {
     }
 
     mouseClicked () {
-        if(this.pauseScreen.clicked(this, this.mouseX, this.mouseY)) {
+        if(this.pauseScreen.clicked(this.mouseX, this.mouseY)) {
             this.isGameStarted = true;
         }
     }
