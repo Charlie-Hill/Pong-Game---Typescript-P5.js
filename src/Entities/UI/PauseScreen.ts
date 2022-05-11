@@ -1,5 +1,5 @@
 import p5 from "p5"
-import IEntity from "../../Interface/IEntity"
+import IEntity from "../../Interface/Entities/IEntity"
 
 export default class PauseScreen implements IEntity {
 

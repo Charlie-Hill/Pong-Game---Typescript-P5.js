@@ -1,5 +1,5 @@
 import p5 from "p5";
-import IEntity from "../Interface/IEntity";
+import IEntity from "../Interface/Entities/IEntity";
 
 export default class Paddle implements IEntity {
     public x: number;
@@ -16,12 +16,12 @@ export default class Paddle implements IEntity {
         this.isAIControlled = isAIControlled;
     }
 
-    display(p5: any, customY?: number): void {
-        if (customY) {
-            this.y = customY;
+    display(p5: any, x: number, y?: number): void {
+        if (y) {
+            this.y = y;
         }
         p5.fill(255)
-        p5.rect(this.x, customY ? customY-35 : this.y, this.width, this.height);
+        p5.rect(this.x, y ? y-35 : this.y, this.width, this.height);
     }
 
 }
