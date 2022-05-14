@@ -11,6 +11,9 @@ export default class Ball implements ICircle {
     public velocityX = this.speed;
     public velocityY = this.speed;
 
+    public width = 0;
+    public height  = 0;
+
     constructor() {
         this.x = 270;
         this.y = 300;

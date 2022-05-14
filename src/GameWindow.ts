@@ -2,9 +2,10 @@ import Canvas from './canvas';
 import Ball from './Entities/Ball';
 import Paddle from './Entities/Paddle';
 import PauseScreen from './Entities/UI/PauseScreen';
-import Collision from './Collision';
+import Collision from './Logic/Collision';
 import { IPlayer } from './Interface/interfaces';
 import { Player } from './Logic/Player';
+import Audio from './Audio/Audio';
 
 export default class GameWindow extends Canvas {
 
@@ -17,6 +18,7 @@ export default class GameWindow extends Canvas {
 
     private ball: Ball;
     private pauseScreen: PauseScreen;
+    private Audio: Audio;
 
     private players: Array<IPlayer>;
 
@@ -24,6 +26,7 @@ export default class GameWindow extends Canvas {
 
     constructor() {
         super();
+        this.Audio = new Audio();
         this.ball = new Ball();
         this.collision = new Collision(this);
         this.pauseScreen = new PauseScreen(GameWindow.WINDOW_LENGTH, GameWindow.WINDOW_HEIGHT, GameWindow.WINDOW_PAUSED_COLOR)
@@ -47,23 +50,30 @@ export default class GameWindow extends Canvas {
     }
 
     draw() {
+        // Render Background
         this.background(GameWindow.WINDOW_COLOR);
+        for (let i = 0; i < GameWindow.WINDOW_HEIGHT; i += 10) {
+            this.line(GameWindow.WINDOW_LENGTH / 2, i, GameWindow.WINDOW_LENGTH / 2, i + 5);
+        }
 
         if (!this.isGameStarted) {
             this.pauseScreen.display(this);
         } else {
             this.players.forEach(player => {
                 const y = player.IsAI ? player.Paddle.y : this.mouseY;
+
+                if (this.collision.circRect(this.ball, player.Paddle)) {
+                    this.ball.velocityX = -this.ball.velocityX;
+                    this.ball.velocityY = -this.ball.velocityY;
+
+                    this.Audio.playSound(this.Audio.paddleHitsBall);
+                }
+
                 player.Paddle.display(this, player.Paddle.x, y);
             })
 
+            // Update the ball
             this.ball.display(this);
-
-            if(this.collision.circRect(this.ball, this.players[0].Paddle))
-            {
-                this.ball.velocityX *= -1;
-                this.ball.velocityY *= -1;
-            }
         }
     }
 
