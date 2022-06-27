@@ -5,7 +5,6 @@ import PauseScreen from './Entities/UI/PauseScreen';
 import Collision from './Logic/Collision';
 import { IPlayer } from './Interface/interfaces';
 import { Player } from './Logic/Player';
-import Audio from './Audio/Audio';
 
 export default class GameWindow extends Canvas {
 
@@ -14,11 +13,10 @@ export default class GameWindow extends Canvas {
     static WINDOW_COLOR = 100;
     static WINDOW_PAUSED_COLOR = 40;
 
-    private isGameStarted: boolean = false;
+    public isGameStarted: boolean = false;
 
     private ball: Ball;
     private pauseScreen: PauseScreen;
-    private Audio: Audio;
 
     private players: Array<IPlayer>;
 
@@ -26,7 +24,6 @@ export default class GameWindow extends Canvas {
 
     constructor() {
         super();
-        this.Audio = new Audio();
         this.ball = new Ball();
         this.collision = new Collision(this);
         this.pauseScreen = new PauseScreen(GameWindow.WINDOW_LENGTH, GameWindow.WINDOW_HEIGHT, GameWindow.WINDOW_PAUSED_COLOR)
@@ -49,6 +46,10 @@ export default class GameWindow extends Canvas {
         }
     }
 
+    pauseGame (pause: boolean) {
+        this.isGameStarted = !pause;
+    }
+
     draw() {
         // Render Background
         this.background(GameWindow.WINDOW_COLOR);
@@ -65,8 +66,6 @@ export default class GameWindow extends Canvas {
                 if (this.collision.circRect(this.ball, player.Paddle)) {
                     this.ball.velocityX = -this.ball.velocityX;
                     this.ball.velocityY = -this.ball.velocityY;
-
-                    this.Audio.playSound(this.Audio.paddleHitsBall);
                 }
 
                 player.Paddle.display(this, player.Paddle.x, y);
