@@ -28,6 +28,12 @@ export default class Ball implements ICircle {
         this.ballMovement();
         p5.fill(232, 59, 46);
         p5.circle(this.x, this.y, this.radius*2);
+
+        p5.fill(0, 255, 0);
+        p5.line(0, this.y, p5.width, this.y);
+
+        p5.fill(150, 150, 150);
+        p5.line(this.x, this.y, this.velocityX, this.velocityY)
     }
 
 }

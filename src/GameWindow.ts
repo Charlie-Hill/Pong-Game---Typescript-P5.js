@@ -61,11 +61,14 @@ export default class GameWindow extends Canvas {
             this.pauseScreen.display(this);
         } else {
             this.players.forEach(player => {
-                const y = player.IsAI ? player.Paddle.y : this.mouseY;
+                const y = player.IsAI ? player.Paddle.y : (this.mouseY);
 
                 if (this.collision.circRect(this.ball, player.Paddle)) {
-                    this.ball.velocityX = -this.ball.velocityX;
-                    this.ball.velocityY = -this.ball.velocityY;
+
+                    const reflectAngle = (player.Paddle.height / 2) - (player.Paddle.height - this.ball.y);
+
+                    this.ball.velocityX *= (-1);
+                    this.ball.velocityY = Math.cos(reflectAngle);
                 }
 
                 player.Paddle.display(this, player.Paddle.x, y);

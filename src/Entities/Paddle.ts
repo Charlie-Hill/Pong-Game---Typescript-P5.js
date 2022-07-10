@@ -21,7 +21,13 @@ export default class Paddle implements IEntity {
             this.y = y;
         }
         p5.fill(255)
-        p5.rect(this.x, y ? y-35 : this.y, this.width, this.height);
+
+        p5.rectMode(p5.CORNERS);
+
+        p5.rect(this.x, this.y, this.x + this.width, this.y + this.height)
+
+        p5.fill(255, 204, 100);
+        p5.line(0, this.y, p5.width, y ? y : this.y);
     }
 
 }
