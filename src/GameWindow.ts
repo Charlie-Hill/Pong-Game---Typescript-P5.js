@@ -60,6 +60,10 @@ export default class GameWindow extends Canvas {
         if (!this.isGameStarted) {
             this.pauseScreen.display(this);
         } else {
+            // Render Scores
+
+
+            // Handle Players & Paddles
             this.players.forEach(player => {
                 const y = player.IsAI ? player.Paddle.y : (this.mouseY);
 
@@ -67,8 +71,8 @@ export default class GameWindow extends Canvas {
 
                     const reflectAngle = (player.Paddle.height / 2) - (player.Paddle.height - this.ball.y);
 
-                    this.ball.velocityX *= (-1);
-                    this.ball.velocityY = Math.cos(reflectAngle);
+                    this.ball.velocityX = this.ball.speed *= Math.cos(reflectAngle);
+                    this.ball.velocityY = this.ball.speed *- Math.sin(reflectAngle);
                 }
 
                 player.Paddle.display(this, player.Paddle.x, y);

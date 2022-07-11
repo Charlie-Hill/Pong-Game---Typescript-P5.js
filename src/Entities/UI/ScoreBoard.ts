@@ -1,4 +1,5 @@
 import { IEntity } from "../../Interface/interfaces";
+import Score from "../../Logic/Score";
 
 export default class ScoreBoard implements IEntity {
 
@@ -8,7 +9,7 @@ export default class ScoreBoard implements IEntity {
     public height: number;
 
     public title: string;
-    public score: number;
+    public score: Score;
 
     constructor()
     {
@@ -16,11 +17,10 @@ export default class ScoreBoard implements IEntity {
         this.height = 100;
 
         this.title = "Player";
-        this.score = 0;
+        this.score = new Score();
     }
 
     SetScore(score: number) {
-        this.score = score;
     }
 
     display(p5: import("p5"), x: number, y: number): void {

@@ -5,14 +5,14 @@ export default class Paddle implements IEntity {
     public x: number;
     public y: number;
 
-    public width = 25;
-    public height = 100;
+    public width = 15;
+    public height = 60;
     
     public isAIControlled: boolean;
 
     constructor(isAIControlled: boolean = false) {
         this.x = isAIControlled ? 740 : 40;
-        this.y = 60;
+        this.y = 100;
         this.isAIControlled = isAIControlled;
     }
 
@@ -22,9 +22,9 @@ export default class Paddle implements IEntity {
         }
         p5.fill(255)
 
-        p5.rectMode(p5.CORNERS);
+        p5.rectMode(p5.RADIUS);
 
-        p5.rect(this.x, this.y, this.x + this.width, this.y + this.height)
+        p5.rect(this.x, this.y, this.width, this.height)
 
         p5.fill(255, 204, 100);
         p5.line(0, this.y, p5.width, y ? y : this.y);
