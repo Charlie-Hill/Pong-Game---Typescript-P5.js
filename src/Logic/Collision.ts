@@ -1,5 +1,6 @@
 import { IEntity, ICircle } from "../Interface/interfaces";
 import p5 from 'p5';
+import GameWindow from "../GameWindow";
 
 export default class Collision {
 
@@ -11,23 +12,53 @@ export default class Collision {
 
     circRect(circle: ICircle, rect: IEntity) {
 
-        const realX = rect.x + rect.width / 2;
-
-        console.log(`Circ x ${circle.x} y ${circle.y} | Rect x ${rect.x} y ${rect.y} | Real x ${realX}`);
+        const topSide = rect.y + rect.height;
+        const bottomSide = rect.y - rect.height;
+        const leftSide = rect.x - rect.width;
+        const rightSide = rect.x + rect.width;
         
-        let distX = Math.abs(circle.x - realX-rect.width/2);
-        let distY = Math.abs(circle.y - rect.y-rect.height / 2);
 
-        if (distX > (rect.width / 2 + circle.radius)) { return false; }
-        if (distY > (rect.height / 2 + circle.radius)) { return false; }
+        let circleDistance = {x:0, y:0};
 
-        if (distX <= (rect.width / 2)) { return true; }
-        if (distY <= (rect.height / 2)) { return true; }
+        circleDistance.x = Math.abs(circle.x - rect.x);
+        circleDistance.y = Math.abs(circle.y - rect.y);
+    
+        if (circleDistance.x > (rect.width/2 + circle.radius)) { return false; }
+        if (circleDistance.y > (rect.height/2 + circle.radius)) { return false; }
+    
+        if (circleDistance.x <= (rect.width/2)) { return true; } 
+        if (circleDistance.y <= (rect.height/2)) { return true; }
+    
+        let cornerDistance_sq = (circleDistance.x - rect.width/2)^2 +
+                             (circleDistance.y - rect.height/2)^2;
+    
+        return (cornerDistance_sq <= Math.pow(circle.radius, 2));
+    
 
-        var dx= distX - rect.width / 2;
-        var dy= distY - rect.height / 2;
+        return false;
 
-        return (dx*dx+dy*dy<=(circle.radius * circle.radius));
+        // let textX = circle.x;
+        // let testY = circle.y;
+
+        // if (circle.x < rect.x)
+        //     textX = rect.x;
+        // else if (circle.x > rect.x + (rect.width / 2))
+        //     textX = rect.x + (rect.width / 2);
+
+        // if (circle.y < rect.y)
+        //     testY = rect.y;
+        // else if (circle.y > rect.y + (rect.height / 2))
+        //     testY = rect.y + (rect.height / 2);
+
+            
+        // let distanceX = circle.x - textX;
+        // let distanceY = circle.y - testY;
+
+        // let distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+        // if (distance < circle.radius) {
+        //     return true;
+        // }
     }
 
 }

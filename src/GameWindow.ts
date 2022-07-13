@@ -3,7 +3,7 @@ import Ball from './Entities/Ball';
 import Paddle from './Entities/Paddle';
 import PauseScreen from './Entities/UI/PauseScreen';
 import Collision from './Logic/Collision';
-import { IPlayer } from './Interface/interfaces';
+import { ICircle, IPlayer } from './Interface/interfaces';
 import { Player } from './Logic/Player';
 
 export default class GameWindow extends Canvas {
@@ -71,13 +71,30 @@ export default class GameWindow extends Canvas {
 
                 if (this.collision.circRect(this.ball, player.Paddle)) {
 
-                    const reflectAngle = (player.Paddle.height / 2) - (player.Paddle.height - this.ball.y);
+                    // const reflectAngle = (player.Paddle.height / 2) - (player.Paddle.height - this.ball.y);
 
-                    this.ball.velocityX = this.ball.speed *= Math.cos(reflectAngle);
-                    this.ball.velocityY = this.ball.speed *- Math.sin(reflectAngle);
+                    // this.ball.velocityX = this.ball.speed *= Math.cos(reflectAngle);
+                    // this.ball.velocityY = this.ball.speed *- Math.sin(reflectAngle);
+
+                    // player_interesected_ball = detect_collision(ball, player) #It's a function that just detects if two rectangles collided
+                    // if player_interesected_ball :
+                    //     offset = (ball.x + ball.s - player.x) / \
+                    //              (player.width + ball.s) # ball.s is the ball size like 10px it means that is 10px wide and 10px high
+                    //     phi = 0.25 * math.pi * (2 * offset - 1)
+                    
+                    //     ball.vel_x = ball.speed * math.sin(phi)
+                    //     ball.vel_y *= -1 
+
+                    // const offset = (this.ball.x + this.ball.speed - player.Paddle.x) / (player.Paddle.width + this.ball.speed);
+                    // const phi = 0.25 * Math.PI * (2 * offset - 1);
+
+                    // this.ball.velocityX = this.ball.speed * Math.sin(phi);
+                    // this.ball.velocityY *= -1;
+                    
                 }
 
                 player.Paddle.display(this, player.Paddle.x, y);
+                this.stroke(0);
             })
 
             // Update the ball
