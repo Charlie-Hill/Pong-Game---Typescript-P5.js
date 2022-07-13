@@ -27,8 +27,8 @@ export default class PauseScreen implements IEntity {
 
         // Text
         p5.textAlign(p5.CENTER);
-        p5.strokeWeight(4);
-        p5.stroke(50);
+        p5.strokeWeight(2);
+        // p5.stroke(50);
         p5.fill(255, 0, 0);
         
         p5.textSize(64);

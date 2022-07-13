@@ -10,8 +10,12 @@ export default class Collision {
     }
 
     circRect(circle: ICircle, rect: IEntity) {
+
+        const realX = rect.x + rect.width / 2;
+
+        console.log(`Circ x ${circle.x} y ${circle.y} | Rect x ${rect.x} y ${rect.y} | Real x ${realX}`);
         
-        let distX = Math.abs(circle.x - rect.x-rect.width/2);
+        let distX = Math.abs(circle.x - realX-rect.width/2);
         let distY = Math.abs(circle.y - rect.y-rect.height / 2);
 
         if (distX > (rect.width / 2 + circle.radius)) { return false; }
