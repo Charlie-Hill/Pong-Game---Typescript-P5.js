@@ -32,7 +32,7 @@ export default class Paddle implements IEntity {
 
 
         // Debug Drawings
-        p5.fill(255,0,0);
+        p5.fill(255,255,0);
         p5.circle(this.x - this.width, this.y + this.height, 5);
         p5.circle(this.x + this.width, this.y + this.height, 5);
         p5.circle(this.x - this.width, this.y - this.height, 5);
