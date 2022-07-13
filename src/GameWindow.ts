@@ -22,6 +22,8 @@ export default class GameWindow extends Canvas {
 
     private collision: Collision;
 
+    protected debuggingEnabled = true;
+
     constructor() {
         super();
         this.ball = new Ball();
