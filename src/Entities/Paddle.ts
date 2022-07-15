@@ -39,7 +39,11 @@ export default class Paddle implements IEntity {
             p5.circle(this.x + this.width, this.y - this.height, 5);
     
             p5.fill(255, 204, 100);
-            p5.line(0, this.y, p5.width, y ? y : this.y);
+
+            p5.stroke(0, 13, 180);
+            for (let i = 0; i < p5.width; i += 10) {
+                p5.line(i, this.y, i + 5, this.y);
+            }
         }
     }
 
