@@ -10,55 +10,17 @@ export default class Collision {
         this.p5 = p5;
     }
 
+    circleCollidesWithBorder (circle: ICircle) {
+        if ((circle.y + circle.radius) >= GameWindow.WINDOW_HEIGHT || (circle.y - circle.radius) <= 0) {
+            return true;
+        }
+    }
+
     circRect(circle: ICircle, rect: IEntity) {
-
-        const topSide = rect.y + rect.height;
-        const bottomSide = rect.y - rect.height;
-        const leftSide = rect.x - rect.width;
-        const rightSide = rect.x + rect.width;
+        const DeltaX = circle.x - Math.max(rect.x, Math.min(circle.x, rect.x + rect.width));
+        const DeltaY = circle.y - Math.min(circle.y, rect.y + rect.height);
         
-
-        let circleDistance = {x:0, y:0};
-
-        circleDistance.x = Math.abs(circle.x - rect.x);
-        circleDistance.y = Math.abs(circle.y - rect.y);
-    
-        if (circleDistance.x > (rect.width/2 + circle.radius)) { return false; }
-        if (circleDistance.y > (rect.height/2 + circle.radius)) { return false; }
-    
-        if (circleDistance.x <= (rect.width/2)) { return true; } 
-        if (circleDistance.y <= (rect.height/2)) { return true; }
-    
-        let cornerDistance_sq = (circleDistance.x - rect.width/2)^2 +
-                             (circleDistance.y - rect.height/2)^2;
-    
-        return (cornerDistance_sq <= Math.pow(circle.radius, 2));
-    
-
-        return false;
-
-        // let textX = circle.x;
-        // let testY = circle.y;
-
-        // if (circle.x < rect.x)
-        //     textX = rect.x;
-        // else if (circle.x > rect.x + (rect.width / 2))
-        //     textX = rect.x + (rect.width / 2);
-
-        // if (circle.y < rect.y)
-        //     testY = rect.y;
-        // else if (circle.y > rect.y + (rect.height / 2))
-        //     testY = rect.y + (rect.height / 2);
-
-            
-        // let distanceX = circle.x - textX;
-        // let distanceY = circle.y - testY;
-
-        // let distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-
-        // if (distance < circle.radius) {
-        //     return true;
-        // }
+        return (DeltaX * DeltaX + DeltaY * DeltaY) < ((circle.radius) * circle.radius);
     }
 
 }
