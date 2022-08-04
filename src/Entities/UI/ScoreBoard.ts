@@ -24,6 +24,6 @@ export default class ScoreBoard implements IEntity {
     }
 
     display(p5: import("p5"), x: number, y: number): void {
-
+        
     }
 }
