@@ -23,11 +23,11 @@ export default class Collision {
         const DeltaX = circle.x - Math.max((rect.x - rect.width / 2), Math.min(circle.x, rect.x + rect.width));
         const DeltaY = circle.y - Math.max(rect.y - (rect.height / 2), Math.min(circle.y, rect.y + rect.height));
 
-        console.log(`DeltaX ${DeltaX} DeltaY ${DeltaY}`);
+        // console.log(`DeltaX ${DeltaX} DeltaY ${DeltaY}`);
 
-        if ((DeltaX * DeltaX + DeltaY * DeltaY) < (circle.radius * circle.radius)) {
-            console.log("HIT")
-        }
+        // if ((DeltaX * DeltaX + DeltaY * DeltaY) < (circle.radius * circle.radius)) {
+        //     console.log("HIT")
+        // }
 
         return (DeltaX * DeltaX + DeltaY * DeltaY) < (circle.radius * circle.radius);
     }

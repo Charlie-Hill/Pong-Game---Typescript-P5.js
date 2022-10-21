@@ -62,7 +62,7 @@ export default class GameWindow extends Canvas {
             this.pauseScreen.display(this);
         } else {
             // Render Scores
-
+            console.log(`volx ${this.ball.velocityX} : voly ${this.ball.velocityY}`);
 
             // Handle Players & Paddles
             this.players.forEach(player => {
