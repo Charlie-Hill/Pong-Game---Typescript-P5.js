@@ -32,4 +32,15 @@ export default class Collision {
         return (DeltaX * DeltaX + DeltaY * DeltaY) < (circle.radius * circle.radius);
     }
 
+    calculateBallDeflection(ballX: number, ballY: number, paddleX: number, paddleY: number): number {
+        // Calculate the x and y distances between the ball and the paddle
+        const xDistance: number = ballX - paddleX;
+        const yDistance: number = ballY - paddleY;
+      
+        // Calculate the angle of deflection using trigonometry
+        const deflectionAngle: number = Math.atan2(yDistance, xDistance);
+      
+        return deflectionAngle;
+      }
+
 }

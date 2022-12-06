@@ -12,7 +12,7 @@ export default class GameWindow extends Canvas {
     static WINDOW_HEIGHT = 600;
     static WINDOW_COLOR = 100;
     static WINDOW_PAUSED_COLOR = 40;
-    static debuggingEnabled = false;
+    static debuggingEnabled = true;
 
     public isGameStarted: boolean = false;
 
@@ -61,23 +61,21 @@ export default class GameWindow extends Canvas {
         if (!this.isGameStarted) {
             this.pauseScreen.display(this);
         } else {
-            // Render Scores
-            console.log(`volx ${this.ball.velocityX} : voly ${this.ball.velocityY}`);
-
             // Handle Players & Paddles
             this.players.forEach(player => {
                 const y = player.IsAI ? player.Paddle.y : (this.mouseY);
 
                 if (this.collision.circRect(this.ball, player.Paddle)) {
 
-                    const reflectAngle = ((player.Paddle.height) - (player.Paddle.height - this.ball.y));
-                    this.ball.velocityX = this.ball.speed *= Math.cos(reflectAngle);
+                    const deflectAngle = this.collision.calculateBallDeflection(this.ball.x, this.ball.y, player.Paddle.x, player.Paddle.y);
 
-                    if (this.ball.y > player.Paddle.y) {
-                        this.ball.velocityY = -this.ball.speed *- Math.sin(reflectAngle);
-                    } else {
-                        this.ball.velocityY = this.ball.speed *- Math.sin(reflectAngle);
-                    }
+                        // Use the angle of deflection to calculate the new x and y velocities of the ball
+                    const newVelocityX: number = this.ball.velocityX * Math.cos(deflectAngle);
+                    const newVelocityY: number = this.ball.velocityY * Math.sin(deflectAngle);
+                
+                    // Return the new x and y velocities of the ball
+                    this.ball.velocityX = -newVelocityX;
+                    this.ball.velocityY = -newVelocityY;
 
                     this.ball.isColliding = true;
                 }
