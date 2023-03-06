@@ -44,6 +44,8 @@ export default class GameWindow extends Canvas {
     mouseClicked () {
         if(this.pauseScreen.clicked(this.mouseX, this.mouseY)) {
             this.isGameStarted = true;
+            const event = new CustomEvent('pauseScreenMouseClicked', { detail: this.isGameStarted});
+            document.dispatchEvent(event)
         }
     }
 
@@ -69,7 +71,7 @@ export default class GameWindow extends Canvas {
 
                     const deflectAngle = this.collision.calculateBallDeflection(this.ball.x, this.ball.y, player.Paddle.x, player.Paddle.y);
 
-                        // Use the angle of deflection to calculate the new x and y velocities of the ball
+                    // Use the angle of deflection to calculate the new x and y velocities of the ball
                     const newVelocityX: number = this.ball.velocityX * Math.cos(deflectAngle);
                     const newVelocityY: number = this.ball.velocityY * Math.sin(deflectAngle);
                 
