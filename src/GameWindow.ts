@@ -12,7 +12,8 @@ export default class GameWindow extends Canvas {
     static WINDOW_HEIGHT = 600;
     static WINDOW_COLOR = 100;
     static WINDOW_PAUSED_COLOR = 40;
-    static debuggingEnabled = true;
+
+    public debuggingEnabled = true;
 
     public isGameStarted: boolean = false;
 
