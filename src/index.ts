@@ -2,11 +2,12 @@ import GameWindow from './GameWindow';
 
 let game = new GameWindow();
 
+handlePauseScreen()
+
 document.getElementById('resetBtn')?.addEventListener('click', () => {
     document.getElementById('gameWindow')!.innerHTML = '';
-    document.getElementById('pauseBtn')!.innerHTML = 'Resume';
-
     game = new GameWindow();
+    handlePauseScreen();
 });
 
 document.getElementById('pauseBtn')?.addEventListener('click', () => {
@@ -21,8 +22,8 @@ document.addEventListener('pauseScreenMouseClicked', (event: any) => {
 
 function handlePauseScreen () {
     if (game.isGameStarted) {
-        document.getElementById('pauseBtn')!.innerHTML = 'Pause';
+        document.getElementById('pauseBtn')!.innerHTML = 'Pause ⏸';
     } else {
-        document.getElementById('pauseBtn')!.innerHTML = 'Resume';
+        document.getElementById('pauseBtn')!.innerHTML = 'Resume ▶';
     }
 }

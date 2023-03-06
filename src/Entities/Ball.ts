@@ -51,7 +51,8 @@ export default class Ball implements ICircle {
         const arrowAngle = Math.atan2(this.velocityY, this.velocityX);
         const arrowX = this.x + (this.radius + arrowSize) * Math.cos(arrowAngle);
         const arrowY = this.y + (this.radius + arrowSize) * Math.sin(arrowAngle);
-        p5.circle(arrowX, arrowY, 3);
+        p5.fill(0, 255, 0);
+        p5.circle(arrowX, arrowY, 6);
     }
 
     display(p5: any) {
