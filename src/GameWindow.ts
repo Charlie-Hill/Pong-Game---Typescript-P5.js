@@ -24,20 +24,20 @@ export default class GameWindow extends Canvas {
 
     private collision: Collision;
 
-    constructor() {
+    constructor () {
         super();
         this.ball = new Ball();
         this.collision = new Collision(this);
         this.pauseScreen = new PauseScreen(GameWindow.WINDOW_LENGTH, GameWindow.WINDOW_HEIGHT, GameWindow.WINDOW_PAUSED_COLOR)
 
         // Setup Players
-        let humanPlayer = new Player("Human");
-        let aiPlayer = new Player("Computer", true);
+        let humanPlayer = new Player('Human');
+        let aiPlayer = new Player('Computer', true);
 
         this.players = [humanPlayer, aiPlayer];
     }
 
-    setup() {
+    setup () {
         this.createCanvas(GameWindow.WINDOW_LENGTH, GameWindow.WINDOW_HEIGHT);
         this.frameRate(60);
     }
@@ -54,7 +54,7 @@ export default class GameWindow extends Canvas {
         this.isGameStarted = !pause;
     }
 
-    draw() {
+    draw () {
         // Render Background
         this.background(GameWindow.WINDOW_COLOR);
         for (let i = 0; i < GameWindow.WINDOW_HEIGHT; i += 10) {
@@ -69,6 +69,8 @@ export default class GameWindow extends Canvas {
                 const y = player.IsAI ? player.Paddle.y : (this.mouseY);
 
                 if (this.collision.circRect(this.ball, player.Paddle)) {
+
+                    const ballSpeedXY: number = Math.sqrt(this.ball.velocityX*this.ball.velocityX + this.ball.velocityY*this.ball.velocityY);
 
                     const deflectAngle = this.collision.calculateBallDeflection(this.ball.x, this.ball.y, player.Paddle.x, player.Paddle.y);
 
