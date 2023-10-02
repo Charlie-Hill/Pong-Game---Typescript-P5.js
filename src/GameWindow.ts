@@ -24,6 +24,8 @@ export default class GameWindow extends Canvas {
 
     private collision: Collision;
 
+    private SFX_DING: any; // p5.SoundFile
+
     constructor () {
         super();
         this.ball = new Ball();
@@ -37,9 +39,16 @@ export default class GameWindow extends Canvas {
         this.players = [humanPlayer, aiPlayer];
     }
 
+    preload () {
+        const DING_FILE = require('./Audio/files/paddleHitsBall.wav')
+        this.SFX_DING = new Canvas.SoundFile(DING_FILE)
+    }
+
     setup () {
         this.createCanvas(GameWindow.WINDOW_LENGTH, GameWindow.WINDOW_HEIGHT);
         this.frameRate(60);
+
+        this.SFX_DING.playMode('untilDone')
     }
 
     mouseClicked () {
@@ -62,15 +71,14 @@ export default class GameWindow extends Canvas {
         }
 
         if (!this.isGameStarted) {
-            this.pauseScreen.display(this);
+            return this.pauseScreen.display(this);
         } else {
             // Handle Players & Paddles
             this.players.forEach(player => {
                 const y = player.IsAI ? player.Paddle.y : (this.mouseY);
 
                 if (this.collision.circRect(this.ball, player.Paddle)) {
-
-                    const ballSpeedXY: number = Math.sqrt(this.ball.velocityX*this.ball.velocityX + this.ball.velocityY*this.ball.velocityY);
+                    const ballSpeedXY: number = Math.sqrt((this.ball.velocityX * this.ball.velocityX) + (this.ball.velocityY * this.ball.velocityY));
 
                     const deflectAngle = this.collision.calculateBallDeflection(this.ball.x, this.ball.y, player.Paddle.x, player.Paddle.y);
 
@@ -83,6 +91,8 @@ export default class GameWindow extends Canvas {
                     this.ball.velocityY = -newVelocityY;
 
                     this.ball.isColliding = true;
+
+                    this.SFX_DING.play()
                 }
 
                 player.Paddle.display(this, player.Paddle.x, y);
@@ -91,6 +101,8 @@ export default class GameWindow extends Canvas {
 
             if (this.collision.circleCollidesWithBorder(this.ball)) {
                 this.ball.velocityY *= -1;
+
+                this.SFX_DING.play();
             }
 
             // Update the ball
