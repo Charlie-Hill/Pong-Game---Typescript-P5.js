@@ -18,6 +18,7 @@ let game = new GameWindow();
 handlePauseScreen()
 
 document.getElementById('resetBtn')?.addEventListener('click', () => {
+    game.remove()
     document.getElementById('gameWindow')!.innerHTML = '';
     game = new GameWindow();
     handlePauseScreen();
