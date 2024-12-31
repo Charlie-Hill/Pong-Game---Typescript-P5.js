@@ -94,6 +94,9 @@ export default class GameWindow extends Canvas {
             }
 
             player.Paddle.display(this, player.Paddle.x, y);
+
+            player.Paddle.Controller.updatePosition(player.Paddle.x, y);
+
             this.stroke(0);
         })
 

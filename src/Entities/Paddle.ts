@@ -1,7 +1,10 @@
 import p5 from "p5";
-import IEntity from "../Interface/Entities/IEntity";
+import { IController } from "../Interface/Logic/IController";
+import { AIController } from "../Logic/AIController";
+import { PlayerController } from "../Logic/PlayerController";
+import IPaddleEntity from "../Interface/Entities/IPaddleEntity";
 
-export default class Paddle implements IEntity {
+export default class Paddle implements IPaddleEntity {
     public x: number;
     public y: number;
 
@@ -9,11 +12,18 @@ export default class Paddle implements IEntity {
     public height = 60;
     
     public isAIControlled: boolean;
+    public Controller: IController;
 
     constructor(isAIControlled: boolean = false) {
         this.x = isAIControlled ? 740 : 40;
         this.y = 455;
         this.isAIControlled = isAIControlled;
+
+        if (this.isAIControlled) {
+            this.Controller = new AIController();
+        } else {
+            this.Controller = new PlayerController();
+        }
     }
 
     move () {

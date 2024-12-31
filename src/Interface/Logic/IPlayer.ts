@@ -1,5 +1,5 @@
 import { IScore } from "../interfaces";
-import Paddle from "../Entities/IEntity";
+import Paddle from "../Entities/IPaddleEntity";
 
 export interface IPlayer {
     Name: string;
