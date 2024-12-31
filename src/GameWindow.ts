@@ -49,6 +49,8 @@ export default class GameWindow extends Canvas {
         this.frameRate(60);
 
         this.SFX_DING.playMode('untilDone')
+
+        this.noCursor()
     }
 
     mouseClicked () {
@@ -64,51 +66,46 @@ export default class GameWindow extends Canvas {
     }
 
     draw () {
+        if (!this.isGameStarted) {
+            return this.pauseScreen.display(this);
+        }
+
         // Render Background
         this.background(GameWindow.WINDOW_COLOR);
         for (let i = 0; i < GameWindow.WINDOW_HEIGHT; i += 10) {
             this.line(GameWindow.WINDOW_LENGTH / 2, i, GameWindow.WINDOW_LENGTH / 2, i + 5);
         }
 
-        if (!this.isGameStarted) {
-            return this.pauseScreen.display(this);
-        } else {
-            // Handle Players & Paddles
-            this.players.forEach(player => {
-                const y = player.IsAI ? player.Paddle.y : (this.mouseY);
+        // Handle Players & Paddles
+        this.players.forEach(player => {
+            const y = player.IsAI ? player.Paddle.y : (this.mouseY);
 
-                if (this.collision.circRect(this.ball, player.Paddle)) {
-                    const ballSpeedXY: number = Math.sqrt((this.ball.velocityX * this.ball.velocityX) + (this.ball.velocityY * this.ball.velocityY));
+            if (this.collision.circRect(this.ball, player.Paddle)) {
+                this.ball.velocityX = -this.ball.velocityX;
 
-                    const deflectAngle = this.collision.calculateBallDeflection(this.ball.x, this.ball.y, player.Paddle.x, player.Paddle.y);
-
-                    // Use the angle of deflection to calculate the new x and y velocities of the ball
-                    const newVelocityX: number = this.ball.velocityX * Math.cos(deflectAngle);
-                    const newVelocityY: number = this.ball.velocityY * Math.sin(deflectAngle);
-                
-                    // Return the new x and y velocities of the ball
-                    this.ball.velocityX = -newVelocityX;
-                    this.ball.velocityY = -newVelocityY;
-
-                    this.ball.isColliding = true;
-
-                    this.SFX_DING.play()
+                const paddleHalfY = player.Paddle.y;
+                if (this.ball.y > paddleHalfY) {
+                    this.ball.velocityY = -this.ball.velocityY;
                 }
 
-                player.Paddle.display(this, player.Paddle.x, y);
-                this.stroke(0);
-            })
+                this.ball.isColliding = true;
 
-            if (this.collision.circleCollidesWithBorder(this.ball)) {
-                this.ball.velocityY *= -1;
-
-                this.SFX_DING.play();
+                this.SFX_DING.play()
             }
 
-            // Update the ball
-            this.ball.display(this);
-            this.ball.isColliding = false;
+            player.Paddle.display(this, player.Paddle.x, y);
+            this.stroke(0);
+        })
+
+        if (this.collision.circleCollidesWithBorder(this.ball)) {
+            this.ball.velocityY *= -1;
+
+            this.SFX_DING.play();
         }
+
+        // Update the ball
+        this.ball.display(this);
+        this.ball.isColliding = false;
     }
 
 }

@@ -12,7 +12,7 @@ export default class Paddle implements IEntity {
 
     constructor(isAIControlled: boolean = false) {
         this.x = isAIControlled ? 740 : 40;
-        this.y = 250;
+        this.y = 455;
         this.isAIControlled = isAIControlled;
     }
 
