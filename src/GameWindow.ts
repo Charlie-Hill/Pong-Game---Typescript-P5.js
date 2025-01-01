@@ -7,6 +7,7 @@ import { IPlayer } from './Interface/interfaces';
 import { Player } from './Logic/Player';
 import ScoreBoard from './Entities/UI/ScoreBoard';
 import { GameRules } from './Logic/GameRules';
+import { SoundEngine } from './Systems/SoundEngine';
 
 export default class GameWindow extends Canvas {
 
@@ -19,6 +20,7 @@ export default class GameWindow extends Canvas {
 
     public isGameStarted: boolean = false;
 
+    private SoundEngine: SoundEngine;
     private ball: Ball;
     private gameRules: GameRules;
     private scoreboard: ScoreBoard;
@@ -33,6 +35,8 @@ export default class GameWindow extends Canvas {
 
     constructor () {
         super();
+
+        this.SoundEngine = new SoundEngine();
         this.ball = new Ball();
         this.collision = new Collision(this);
         this.gameRules = new GameRules();
@@ -47,19 +51,9 @@ export default class GameWindow extends Canvas {
         this.scoreboard = new ScoreBoard(this.players);
     }
 
-    preload () {
-        const DING_FILE = require('./Audio/files/paddleHitsBall.wav')
-        const SCORE_POINT_FILE = require('./Audio/files/pointScore.wav');
-        this.SFX_DING = new Canvas.SoundFile(DING_FILE)
-        this.SFX_SCORE_POINT = new Canvas.SoundFile(SCORE_POINT_FILE)
-    }
-
     setup () {
         this.createCanvas(GameWindow.WINDOW_LENGTH, GameWindow.WINDOW_HEIGHT);
         this.frameRate(60);
-
-        this.SFX_DING.playMode('untilDone')
-        this.SFX_SCORE_POINT.playMode('untilDone')
     }
 
     mouseClicked () {
@@ -107,7 +101,7 @@ export default class GameWindow extends Canvas {
 
                 this.ball.isColliding = true;
 
-                this.SFX_DING.play()
+                this.SoundEngine.SFX.SFX_DING.play()
             }
 
             player.Paddle.update(this, player.Paddle.x, y, this.ball)
@@ -118,13 +112,13 @@ export default class GameWindow extends Canvas {
         if (this.collision.circleCollidesWithBorder(this.ball)) {
             this.ball.velocityY *= -1;
 
-            this.SFX_DING.play();
+            this.SoundEngine.SFX.SFX_DING.play();
         }
 
         // Handle the game rules check
         const rulesCheck = this.gameRules.handleBallCheck(this.ball.x);
         if (rulesCheck !== -1) {
-            this.SFX_SCORE_POINT.play();
+            this.SoundEngine.SFX.SFX_SCORE_POINT.play()
 
             this.scoreboard.AddPoint(rulesCheck)
 
