@@ -1,5 +1,6 @@
-import { IEntity } from "../../Interface/interfaces";
-import Score from "../../Logic/Score";
+import p5 from "p5";
+import { IEntity, IPlayer } from "../../Interface/interfaces";
+import GameWindow from "../../GameWindow";
 
 export default class ScoreBoard implements IEntity {
 
@@ -8,22 +9,39 @@ export default class ScoreBoard implements IEntity {
     public width: number;
     public height: number;
 
-    public title: string;
-    public score: Score;
+    private players: Array<IPlayer>
 
-    constructor()
+
+    constructor(Players: Array<IPlayer>)
     {
         this.width = 100;
         this.height = 100;
 
-        this.title = "Player";
-        this.score = new Score();
+        this.players = Players;
     }
 
-    SetScore(score: number) {
+    AddPoint(playerID: number) {
+        this.players[playerID].Score.scoreCount++;
     }
 
-    display(p5: import("p5"), x: number, y: number): void {
+    SetScore(score: number, player: number) {
+    }
+
+    display(p5: p5): void {
+
+        const midpointX = GameWindow.WINDOW_LENGTH / 2;
+        const midpointY = GameWindow.WINDOW_HEIGHT / 2;
+
+        p5.textSize(256)
+        p5.textAlign(p5.CENTER, p5.CENTER)
+        p5.fill(235, 25, 199, 50)
         
+        // Player 1
+        p5.text(this.players[0].Score.scoreCount, midpointX / 2, midpointY)
+
+        // Player 2
+        p5.text(this.players[1].Score.scoreCount, GameWindow.WINDOW_LENGTH - (midpointX / 2), midpointY)
+
+
     }
 }

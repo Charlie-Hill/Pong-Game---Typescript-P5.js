@@ -1,7 +1,7 @@
 import p5 from "p5";
-import { ICircle } from "../Interface/interfaces";
+import { IBallEntity } from "../Interface/interfaces";
 
-export default class Ball implements ICircle {
+export default class Ball implements IBallEntity {
     public x: number;
     public y: number;
 
@@ -19,6 +19,11 @@ export default class Ball implements ICircle {
     constructor() {
         this.x = 270;
         this.y = 300;
+    }
+    
+    public resetBall () {
+        this.x = 270
+        this.y = 300
     }
 
     private ballMovement() {

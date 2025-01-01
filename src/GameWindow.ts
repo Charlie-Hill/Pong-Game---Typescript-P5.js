@@ -5,19 +5,23 @@ import PauseScreen from './Entities/UI/PauseScreen';
 import Collision from './Logic/Collision';
 import { IPlayer } from './Interface/interfaces';
 import { Player } from './Logic/Player';
+import ScoreBoard from './Entities/UI/ScoreBoard';
+import { GameRules } from './Logic/GameRules';
 
 export default class GameWindow extends Canvas {
 
-    static WINDOW_LENGTH = 800;
-    static WINDOW_HEIGHT = 600;
-    static WINDOW_COLOR = 100;
-    static WINDOW_PAUSED_COLOR = 40;
+    public static WINDOW_LENGTH = 800;
+    public static WINDOW_HEIGHT = 600;
+    public static WINDOW_COLOR = 100;
+    public static WINDOW_PAUSED_COLOR = 40;
 
-    public debuggingEnabled = true;
+    public debuggingEnabled = false;
 
     public isGameStarted: boolean = false;
 
     private ball: Ball;
+    private gameRules: GameRules;
+    private scoreboard: ScoreBoard;
     private pauseScreen: PauseScreen;
 
     private players: Array<IPlayer>;
@@ -25,23 +29,29 @@ export default class GameWindow extends Canvas {
     private collision: Collision;
 
     private SFX_DING: any; // p5.SoundFile
+    private SFX_SCORE_POINT: any; // p5.SoundFile
 
     constructor () {
         super();
         this.ball = new Ball();
         this.collision = new Collision(this);
+        this.gameRules = new GameRules();
         this.pauseScreen = new PauseScreen(GameWindow.WINDOW_LENGTH, GameWindow.WINDOW_HEIGHT, GameWindow.WINDOW_PAUSED_COLOR)
-
+        
         // Setup Players
         let humanPlayer = new Player('Human');
         let aiPlayer = new Player('Computer', true);
-
+        
         this.players = [humanPlayer, aiPlayer];
+
+        this.scoreboard = new ScoreBoard(this.players);
     }
 
     preload () {
         const DING_FILE = require('./Audio/files/paddleHitsBall.wav')
+        const SCORE_POINT_FILE = require('./Audio/files/pointScore.wav');
         this.SFX_DING = new Canvas.SoundFile(DING_FILE)
+        this.SFX_SCORE_POINT = new Canvas.SoundFile(SCORE_POINT_FILE)
     }
 
     setup () {
@@ -49,8 +59,7 @@ export default class GameWindow extends Canvas {
         this.frameRate(60);
 
         this.SFX_DING.playMode('untilDone')
-
-        this.noCursor()
+        this.SFX_SCORE_POINT.playMode('untilDone')
     }
 
     mouseClicked () {
@@ -76,6 +85,14 @@ export default class GameWindow extends Canvas {
             this.line(GameWindow.WINDOW_LENGTH / 2, i, GameWindow.WINDOW_LENGTH / 2, i + 5);
         }
 
+        if (this.debuggingEnabled) {
+            const fpsText = Math.round(this.frameRate())
+            this.text('FPS: ' + fpsText, this.width * 0.9, 50);
+        }
+
+        // Scoreboard
+        this.scoreboard.display(this);
+
         // Handle Players & Paddles
         this.players.forEach(player => {
             const y = player.IsAI ? player.Paddle.y : (this.mouseY);
@@ -93,9 +110,7 @@ export default class GameWindow extends Canvas {
                 this.SFX_DING.play()
             }
 
-            player.Paddle.display(this, player.Paddle.x, y);
-
-            player.Paddle.Controller.updatePosition(player.Paddle.x, y);
+            player.Paddle.update(this, player.Paddle.x, y, this.ball)
 
             this.stroke(0);
         })
@@ -104,6 +119,16 @@ export default class GameWindow extends Canvas {
             this.ball.velocityY *= -1;
 
             this.SFX_DING.play();
+        }
+
+        // Handle the game rules check
+        const rulesCheck = this.gameRules.handleBallCheck(this.ball.x);
+        if (rulesCheck !== -1) {
+            this.SFX_SCORE_POINT.play();
+
+            this.scoreboard.AddPoint(rulesCheck)
+
+            this.ball.resetBall()
         }
 
         // Update the ball
