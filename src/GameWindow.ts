@@ -8,6 +8,8 @@ import { Player } from './Logic/Player';
 import ScoreBoard from './Entities/UI/ScoreBoard';
 import { GameRules } from './Logic/GameRules';
 import { SoundEngine } from './Systems/SoundEngine';
+import { MathUtils } from './Utils/Math';
+import WinScreen from './Entities/UI/WinScreen';
 
 export default class GameWindow extends Canvas {
 
@@ -25,13 +27,11 @@ export default class GameWindow extends Canvas {
     private gameRules: GameRules;
     private scoreboard: ScoreBoard;
     private pauseScreen: PauseScreen;
+    private winScreen: WinScreen;
 
     private players: Array<IPlayer>;
 
     private collision: Collision;
-
-    private SFX_DING: any; // p5.SoundFile
-    private SFX_SCORE_POINT: any; // p5.SoundFile
 
     constructor () {
         super();
@@ -41,6 +41,7 @@ export default class GameWindow extends Canvas {
         this.collision = new Collision(this);
         this.gameRules = new GameRules();
         this.pauseScreen = new PauseScreen(GameWindow.WINDOW_LENGTH, GameWindow.WINDOW_HEIGHT, GameWindow.WINDOW_PAUSED_COLOR)
+        this.winScreen = new WinScreen()
         
         // Setup Players
         let humanPlayer = new Player('Human');
@@ -104,6 +105,32 @@ export default class GameWindow extends Canvas {
                 this.SoundEngine.SFX.SFX_DING.play()
             }
 
+            if (player.Score.scoreCount >= 5) {
+                this.winScreen.setWinner(player)
+                this.winScreen.display(this);
+                
+                if (this.gameRules.gameWon == false) {
+                    const num = MathUtils.randomInt(1, 4)
+                    switch (num) {
+                        case 1:
+                            this.SoundEngine.SFX.SFX_WIN_1.play()
+                            break
+                        case 2:
+                            this.SoundEngine.SFX.SFX_WIN_2.play()
+                            break
+                        case 3:
+                            this.SoundEngine.SFX.SFX_WIN_3.play()
+                            break
+                        case 4:
+                            this.SoundEngine.SFX.SFX_WIN_4.play()
+                            break
+                    }
+                    this.gameRules.gameWon = true
+                }
+
+                // this.isGameStarted = false
+            }
+            
             player.Paddle.update(this, player.Paddle.x, y, this.ball)
 
             this.stroke(0);

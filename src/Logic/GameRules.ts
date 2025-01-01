@@ -2,6 +2,13 @@ import GameWindow from "../GameWindow";
 
 export class GameRules {
 
+    public gameWon: boolean;
+
+    constructor ()
+    {
+        this.gameWon = false
+    }
+
     handleBallCheck (ballX: number) {
         
         if (ballX < 0) {
