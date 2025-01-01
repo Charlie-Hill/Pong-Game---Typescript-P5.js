@@ -34,7 +34,7 @@ export default class PauseScreen implements IEntity {
         p5.textSize(64);
         p5.text('The game is paused', 400, 250);
         p5.textSize(32);
-        p5.text('Click anywhere on the game window to continue', 400, 300);
+        p5.text('Click anywhere on the game window to resume', 400, 300);
     }
     
 }

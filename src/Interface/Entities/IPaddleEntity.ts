@@ -8,4 +8,5 @@ export default interface IPaddleEntity extends IEntity
     color: string;
     Controller: IController;
     update (p5: p5, x: number, y: number, BallEntity: IEntity): void;
+    resetPaddle (): void;
 }

@@ -31,6 +31,11 @@ export default class Paddle implements IPaddleEntity {
         }
     }
 
+    public resetPaddle () {
+        this.x = this.isAIControlled ? 740 : 40;
+        this.y = 455;
+    }
+
     update (p5: p5, x: number, y: number, BallEntity: IEntity): void {
         this.Controller.updatePosition(this, x, y, BallEntity);
 

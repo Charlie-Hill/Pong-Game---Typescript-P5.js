@@ -128,6 +128,10 @@ export default class GameWindow extends Canvas {
 
             this.scoreboard.AddPoint(rulesCheck)
 
+            this.players.forEach(i => {
+                i.Paddle.resetPaddle()
+            })
+
             this.ball.resetBall()
         }
 
