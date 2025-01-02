@@ -17,7 +17,8 @@ export default class Paddle implements IPaddleEntity {
 
     public isAIControlled: boolean;
     public Controller: IController;
-    
+   
+    public aiPaddleSpeed = 3.5;
 
     constructor(isAIControlled: boolean = false) {
         this.x = isAIControlled ? 740 : 40;
@@ -69,6 +70,9 @@ export default class Paddle implements IPaddleEntity {
             for (let i = 0; i < p5.width; i += 10) {
                 p5.line(i, this.y, i + 5, this.y);
             }
+
+            p5.textSize(14)
+            p5.text(`${this.x}, ${this.y}`, this.x + 25, this.y)
         }
     }
 
