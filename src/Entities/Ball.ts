@@ -1,5 +1,6 @@
 import p5 from "p5";
 import { IBallEntity } from "../Interface/interfaces";
+import { MathUtils } from "../Utils/Math";
 
 export default class Ball implements IBallEntity {
     public x: number;
@@ -78,6 +79,9 @@ export default class Ball implements IBallEntity {
             p5.line(this.x, this.y, this.velocityX, this.velocityY)
             
             this.drawTrajectoryArrow(p5)
+
+            p5.textSize(14)
+            p5.text(`Velocity ${this.velocityX}, ${this.velocityY}`, this.x + 25, this.y)
         }
     }
 

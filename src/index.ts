@@ -11,7 +11,10 @@ require('p5/lib/addons/p5.sound')
 
 // Create a new instance of the GameWindow
 import GameWindow from './GameWindow';
-let game = new GameWindow();
+
+import GameSettings from './Systems/GameSettings'
+let settings = new GameSettings();
+let game = new GameWindow(settings);
 
 
 // UI logic for pause screen
@@ -20,7 +23,7 @@ handlePauseScreen()
 document.getElementById('resetBtn')?.addEventListener('click', () => {
     game.remove()
     document.getElementById('gameWindow')!.innerHTML = '';
-    game = new GameWindow();
+    game = new GameWindow(settings);
     handlePauseScreen();
 });
 

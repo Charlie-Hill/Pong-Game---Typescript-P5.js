@@ -5,6 +5,7 @@ import { PlayerController } from "../Logic/PlayerController";
 import IPaddleEntity from "../Interface/Entities/IPaddleEntity";
 import { IEntity } from "../Interface/interfaces";
 import { Color } from "../Utils/Color";
+import GameWindow from "../GameWindow";
 
 export default class Paddle implements IPaddleEntity {
     public x: number;
@@ -15,15 +16,15 @@ export default class Paddle implements IPaddleEntity {
     
     public color = Color.randomHexString();
 
-    public isAIControlled: boolean;
+    protected isAIControlled: boolean;
     public Controller: IController;
    
-    public aiPaddleSpeed = 3.5;
-
     constructor(isAIControlled: boolean = false) {
         this.x = isAIControlled ? 740 : 40;
         this.y = 455;
-        this.isAIControlled = isAIControlled;
+
+        this.isAIControlled = isAIControlled
+        this.SetAI(isAIControlled);
 
         if (this.isAIControlled) {
             this.Controller = new AIController();
@@ -32,9 +33,19 @@ export default class Paddle implements IPaddleEntity {
         }
     }
 
+    public SetAI(value: boolean) {
+        this.isAIControlled = value;
+
+        if (this.isAIControlled == true) {
+            this.Controller = new AIController();
+        } else {
+            this.Controller = new PlayerController();
+        }
+    }
+
     public resetPaddle () {
-        this.x = this.isAIControlled ? 740 : 40;
-        this.y = 455;
+        // this.x = this.isAIControlled ? 740 : 40;
+        this.y = GameWindow.WINDOW_HEIGHT / 2;
     }
 
     update (p5: p5, x: number, y: number, BallEntity: IEntity): void {
@@ -52,7 +63,6 @@ export default class Paddle implements IPaddleEntity {
         let paddleColor = p5.color(this.color)
         p5.fill(paddleColor);
         p5.rect(this.x, this.y, this.width, this.height)
-
 
         if (p5.debuggingEnabled) {
             p5.fill(255,0,0);

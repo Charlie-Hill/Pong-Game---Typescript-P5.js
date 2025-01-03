@@ -1,4 +1,5 @@
 import Canvas from '../canvas';
+import GameSettings from './GameSettings';
 
 export class SoundEngine
 {
@@ -13,11 +14,14 @@ export class SoundEngine
 
     public SFX: { [key: string]: SoundFile } = {}
 
-    constructor ()
+    constructor (GameSettings: GameSettings)
     {
         this.SFX = {}
 
         this.init()
+
+        GameSettings.onVolumeChange(this.setVolume.bind(this))
+        this.setVolume(GameSettings.getVolume())
     }
 
     init ()
@@ -28,6 +32,13 @@ export class SoundEngine
         this.SFX.SFX_WIN_2 = new SoundFile(SoundEngine.AUDIO_FILES.SFX_WIN_2, 'untilDone')
         this.SFX.SFX_WIN_3 = new SoundFile(SoundEngine.AUDIO_FILES.SFX_WIN_3, 'untilDone')
         this.SFX.SFX_WIN_4 = new SoundFile(SoundEngine.AUDIO_FILES.SFX_WIN_4, 'untilDone')
+    }
+
+    setVolume (val: number)
+    {
+        Object.keys(this.SFX).forEach((key) => {
+            this.SFX[key].volume(val)
+        })
     }
 
 }
@@ -49,5 +60,9 @@ class SoundFile {
 
     play () {
         this.sound.play()
+    }
+
+    volume (value: number) {
+        this.sound.setVolume(value)
     }
 }
