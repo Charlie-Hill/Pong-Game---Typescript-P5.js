@@ -17,17 +17,20 @@ export default class Paddle implements IPaddleEntity {
     public color = Color.randomHexString();
 
     protected isAIControlled: boolean;
+    protected aiLevel?: string;
+
     public Controller: IController;
    
-    constructor(isAIControlled: boolean = false) {
+    constructor(isAIControlled: boolean = false, aiLevel?: string) {
         this.x = isAIControlled ? 740 : 40;
         this.y = 455;
 
         this.isAIControlled = isAIControlled
+        this.aiLevel = aiLevel;
         this.SetAI(isAIControlled);
 
         if (this.isAIControlled) {
-            this.Controller = new AIController();
+            this.Controller = new AIController(this.aiLevel);
         } else {
             this.Controller = new PlayerController();
         }
@@ -37,7 +40,7 @@ export default class Paddle implements IPaddleEntity {
         this.isAIControlled = value;
 
         if (this.isAIControlled == true) {
-            this.Controller = new AIController();
+            this.Controller = new AIController(this.aiLevel);
         } else {
             this.Controller = new PlayerController();
         }

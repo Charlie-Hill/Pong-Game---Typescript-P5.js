@@ -1,6 +1,7 @@
 import p5 from "p5";
 import { IBallEntity } from "../Interface/interfaces";
 import { MathUtils } from "../Utils/Math";
+import { GameRules } from "../Logic/GameRules";
 
 export default class Ball implements IBallEntity {
     public x: number;
@@ -17,14 +18,39 @@ export default class Ball implements IBallEntity {
 
     public isColliding = false;
 
-    constructor() {
+    protected _gameRules: GameRules;
+
+    constructor(_gameRules: GameRules) {
         this.x = 270;
         this.y = 300;
+
+        this._gameRules = _gameRules;
+
+        this.setBallDifficulty();
     }
     
     public resetBall () {
         this.x = 270
         this.y = 300
+
+        this.setBallDifficulty();
+    }
+
+    private setBallDifficulty() {
+        switch (this._gameRules.difficulty) {
+            case 'easy':
+                this.velocityX = -3;
+                break;
+            case 'medium':
+                this.velocityX = -8;
+                break;
+            case 'hard':
+                this.velocityX = -15;
+                break;
+            default:
+                this.velocityX = 3;
+                break;
+        }
     }
 
     private ballMovement() {
@@ -69,7 +95,6 @@ export default class Ball implements IBallEntity {
             p5.fill(232, 59, 46);
         }
         p5.circle(this.x, this.y, this.radius*2);
-
         
         if (p5.debuggingEnabled) {
             p5.fill(0, 255, 0);

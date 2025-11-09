@@ -10,6 +10,8 @@ import { GameRules } from './Logic/GameRules';
 import { SoundEngine } from './Systems/SoundEngine';
 import { MathUtils } from './Utils/Math';
 import WinScreen from './Entities/UI/WinScreen';
+import GameSettings from './Systems/GameSettings';
+import StartScreen from './Entities/UI/StartScreen';
 
 export default class GameWindow extends Canvas {
 
@@ -26,6 +28,7 @@ export default class GameWindow extends Canvas {
     private ball: Ball;
     private gameRules: GameRules;
     private scoreboard: ScoreBoard;
+    private startScreen: StartScreen;
     private pauseScreen: PauseScreen;
     private winScreen: WinScreen;
 
@@ -33,35 +36,51 @@ export default class GameWindow extends Canvas {
 
     private collision: Collision;
 
-    constructor () {
+    constructor (settings: GameSettings) {
         super();
 
-        this.SoundEngine = new SoundEngine();
-        this.ball = new Ball();
+        this.SoundEngine = new SoundEngine(settings);
         this.collision = new Collision(this);
         this.gameRules = new GameRules();
+        this.ball = new Ball(this.gameRules);
+        this.startScreen = new StartScreen(GameWindow.WINDOW_LENGTH, GameWindow.WINDOW_HEIGHT, GameWindow.WINDOW_PAUSED_COLOR)
         this.pauseScreen = new PauseScreen(GameWindow.WINDOW_LENGTH, GameWindow.WINDOW_HEIGHT, GameWindow.WINDOW_PAUSED_COLOR)
         this.winScreen = new WinScreen()
         
+        // Event listeners
+        window.addEventListener('setDifficulty', (event: any) => {
+            const difficulty = event.detail.difficulty;
+            this.gameRules.setDifficulty(difficulty);
+            
+            this.isGameStarted = true;
+            const startEvent = new CustomEvent('pauseScreenMouseClicked', { detail: this.isGameStarted});
+            document.dispatchEvent(startEvent)
+
+            this.ball.resetBall();
+        });
+        
         // Setup Players
         let humanPlayer = new Player('Human');
-        let aiPlayer = new Player('Computer', true);
-        
+        let aiPlayer = new Player('Computer', true, this.gameRules.difficulty);
         this.players = [humanPlayer, aiPlayer];
 
         this.scoreboard = new ScoreBoard(this.players);
     }
-
+    
     setup () {
         this.createCanvas(GameWindow.WINDOW_LENGTH, GameWindow.WINDOW_HEIGHT);
         this.frameRate(60);
     }
 
     mouseClicked () {
+        if (!this.isGameStarted) {
+            this.startScreen.clicked(this.mouseX, this.mouseY);
+        }
+
         if(this.pauseScreen.clicked(this.mouseX, this.mouseY)) {
-            this.isGameStarted = true;
-            const event = new CustomEvent('pauseScreenMouseClicked', { detail: this.isGameStarted});
-            document.dispatchEvent(event)
+            // this.isGameStarted = true;
+            // const event = new CustomEvent('pauseScreenMouseClicked', { detail: this.isGameStarted});
+            // document.dispatchEvent(event)
         }
     }
 
@@ -71,7 +90,7 @@ export default class GameWindow extends Canvas {
 
     draw () {
         if (!this.isGameStarted) {
-            return this.pauseScreen.display(this);
+            return this.startScreen.display(this);
         }
 
         // Render Background
